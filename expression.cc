@@ -12,6 +12,7 @@
 /* The following methods are to be written by students, and constitute
  * CPS222 Project 2.
  */
+//mat commented
 int getPrecedence(char x)
 {
    switch (x)
