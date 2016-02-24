@@ -185,16 +185,25 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
       //Create the left value
       int leftvalue = NumberStack.top();
       NumberStack.pop();
+      int result;
+      if ((rightvalue == 0) && (workValueInt == 47))
+      {
+        throw DivideByZeroError(Cstack.size());
+      }
+      else
+      {
+        result = operate(leftvalue, rightvalue, workValueInt);
+      }
 
       //Check to see if this is the final operation
       if (Cstack.size() == 1)
       {
         //Set the final value
-        finalvalue = operate(leftvalue, rightvalue, workValueInt);
+        finalvalue = result;
       }
 
       //Add the operation back to the number stack
-      NumberStack.push(operate(leftvalue, rightvalue, workValueInt));
+      NumberStack.push(result);
     }
     else
     {
@@ -320,7 +329,7 @@ string Expression::convertToPrefix(string postfix) const
     }
   }
 
-//Mat code
+//Mat
 // string subString2;
 // string subString1;
 // string prefix;
