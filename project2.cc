@@ -7,7 +7,11 @@
  * Copyright (c) 2001, 2003, 2013 - Russell C. Bjork
  *
  */
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
 #include <iostream>
 using namespace std;
 #include "expression.h"
@@ -39,18 +43,30 @@ int main(int argc, char * argv [])
         try
         {
             Expression theExpression(infix);
+<<<<<<< HEAD
             
             cout << "Infix:   ";
             writeExpression(theExpression.getInfix());
             cout << endl;
         
+=======
+
+            cout << "Infix:   ";
+            writeExpression(theExpression.getInfix());
+            cout << endl;
+
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
             postfix = theExpression.getPostfix();
             if (postfix.length() > 0)
             {
                 cout << "Postfix: ";
                 writeExpression(postfix);
                 cout << endl;
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
                 int value = theExpression.getValue();
                 cout << "Value:   " << value << endl;
 
@@ -75,11 +91,19 @@ int main(int argc, char * argv [])
             writeErrorMarker(e.getPosition());
             cout << "Division by Zero" << endl;
         }
+<<<<<<< HEAD
                 
         cout << endl;        
+=======
+
+        cout << endl;
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
 
         getline(cin, infix);
     }
 }
+<<<<<<< HEAD
             
         
+=======
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491

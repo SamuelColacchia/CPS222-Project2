@@ -1,0 +1,4 @@
+expression.cc: In function 'bool checkoperator(char)':
+expression.cc:114:9: error: expected primary-expression before ')' token
+   else () {
+         ^

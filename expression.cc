@@ -12,7 +12,10 @@
 /* The following methods are to be written by students, and constitute
  * CPS222 Project 2.
  */
+<<<<<<< HEAD
 //mat commented
+=======
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
 int getPrecedence(char x)
 {
    switch (x)
@@ -103,9 +106,108 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 }  // Students: replace return code and remove this comment
 
 
+<<<<<<< HEAD
 int Expression::evaluate(string postfix) const throw (DivideByZeroError)
 {
    return 0;
+=======
+// Given the ASCII code item checks if it is supported operator
+
+//INPUT ASCII code
+//OUTPUT True or False
+bool checkoperator(int x)
+{
+   //ASCII codes for + - / *
+   if ((x == 42) || (x == 43) || (x == 45) || (x == 47))
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
+//Given a ASCII code for a number converts it to a int
+
+//INPUT ASCII code
+//OUTPUT int
+int convertAsciiToInt(int x) {
+  return (x - '0');
+}
+
+//Given two numbers and a ASCII code for a operator calculates a number
+
+//INPUT number to be operated on and the ASCII code for a operator
+//OUTPU int
+int operate(int leftvalue, int rightvalue, int theop) {
+  //Multiply
+  if (theop == 42) {
+    return (leftvalue * rightvalue);
+  }
+  //Add
+  else if (theop == 43) {
+    return (leftvalue + rightvalue);
+  }
+  //Subtract
+  else if (theop == 45) {
+    return (leftvalue - rightvalue);
+  }
+  //Divide
+  else if (theop == 47) {
+      return (leftvalue / rightvalue);
+  }
+}
+
+
+int Expression::evaluate(string postfix) const throw (DivideByZeroError)
+{
+   stack<char> Cstack;
+   stack<int> NumberStack;
+   int finalvalue;
+
+   //loop through the in reverse adding to the current stack
+   for (int i = postfix.length() - 1; i > -1; i--)
+   {
+      char currentvalue = postfix[i];
+      cout << currentvalue << endl;
+      Cstack.push(currentvalue);
+   }
+
+   while (Cstack.size() != 0)
+   {
+     int workValueInt = Cstack.top();
+     if (checkoperator(workValueInt)) {
+
+       //Create the right Value
+       int rightvalue = NumberStack.top();
+       NumberStack.pop();
+
+       //Create the left value
+       int leftvalue = NumberStack.top();
+       NumberStack.pop();
+
+       //Check to see if this is the final operation
+       if (Cstack.size() == 1 ) {
+         //Set the final value
+         finalvalue = operate(leftvalue,rightvalue,workValueInt);
+       }
+
+       //Add the operation back to the number stack
+       NumberStack.push(operate(leftvalue,rightvalue,workValueInt));
+     }
+     else {
+       //Push a number to the number stack
+       NumberStack.push(convertAsciiToInt(workValueInt));
+     }
+
+     //Remove a item from the input stack
+     Cstack.pop();
+   }
+
+   //The final return value
+   return finalvalue;
+>>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
 }                       // Students: replace return code and remove this comment
 
 
