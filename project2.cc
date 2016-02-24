@@ -7,7 +7,7 @@
  * Copyright (c) 2001, 2003, 2013 - Russell C. Bjork
  *
  */
- 
+
 #include <iostream>
 using namespace std;
 #include "expression.h"
@@ -39,18 +39,18 @@ int main(int argc, char * argv [])
         try
         {
             Expression theExpression(infix);
-            
+
             cout << "Infix:   ";
             writeExpression(theExpression.getInfix());
             cout << endl;
-        
+
             postfix = theExpression.getPostfix();
             if (postfix.length() > 0)
             {
                 cout << "Postfix: ";
                 writeExpression(postfix);
                 cout << endl;
-            
+
                 int value = theExpression.getValue();
                 cout << "Value:   " << value << endl;
 
@@ -75,11 +75,9 @@ int main(int argc, char * argv [])
             writeErrorMarker(e.getPosition());
             cout << "Division by Zero" << endl;
         }
-                
-        cout << endl;        
+
+        cout << endl;
 
         getline(cin, infix);
     }
 }
-            
-        
