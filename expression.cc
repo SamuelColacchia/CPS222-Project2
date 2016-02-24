@@ -12,10 +12,7 @@
 /* The following methods are to be written by students, and constitute
  * CPS222 Project 2.
  */
-<<<<<<< HEAD
-//mat commented
-=======
->>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
+
 int getPrecedence(char x)
 {
    switch (x)
@@ -106,11 +103,6 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 }  // Students: replace return code and remove this comment
 
 
-<<<<<<< HEAD
-int Expression::evaluate(string postfix) const throw (DivideByZeroError)
-{
-   return 0;
-=======
 // Given the ASCII code item checks if it is supported operator
 
 //INPUT ASCII code
@@ -207,7 +199,6 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
 
    //The final return value
    return finalvalue;
->>>>>>> 03926b5f7dcc37a9f0d2f47f087d8407eaee7491
 }                       // Students: replace return code and remove this comment
 
 
