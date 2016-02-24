@@ -153,8 +153,6 @@ int operate(int leftvalue, int rightvalue, int theop) {
 
 int Expression::evaluate(string postfix) const throw (DivideByZeroError)
 {
-   int test = (postfix[1] - '0') + (postfix[0] - '0');
-
    stack<char> Cstack;
    stack<int> NumberStack;
    int finalvalue;
@@ -171,6 +169,7 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
    {
      int workValueInt = Cstack.top();
      if (checkoperator(workValueInt)) {
+
        //Create the right Value
        int rightvalue = NumberStack.top();
        NumberStack.pop();
@@ -196,6 +195,8 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
      //Remove a item from the input stack
      Cstack.pop();
    }
+
+   //The final return value
    return finalvalue;
 }                       // Students: replace return code and remove this comment
 
