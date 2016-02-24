@@ -202,7 +202,37 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
 }                       // Students: replace return code and remove this comment
 
 
-string Expression::convertToPrefix(string postfix) const
-{
-   return string("");
-}                       // Students: replace return code and remove this comment
+string Expression::convertToPrefix(string postfix) const{
+string subString2;
+string subString1;
+string prefix;
+string part1;
+string part2;
+int size = 1;
+int OperandsNeeded = 1;
+int length = postfix.length();
+
+
+while(size<length){
+  if (OperandsNeeded != 0){
+    if (getPrecedence(postfix[length-size]) == 0){
+      OperandsNeeded--;
+    }
+    else{
+      OperandsNeeded++;
+      prefix += postfix[length];
+    }
+  }
+  else{
+    subString1 = postfix.substr(0, size);
+    subString2 =  postfix.substr(size, length);
+    part1 += convertToPrefix(subString1);
+    part2 += convertToPrefix(subString2);
+  }
+  size++;
+}
+ prefix = part1 + part2;
+ cout<<prefix<<endl;
+ return prefix;
+}
+                       // Students: replace return code and remove this comment
