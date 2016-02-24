@@ -36,6 +36,8 @@ int getPrecedence(char x)
 
 string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 {
+  //Set Variables
+
   int length = infix.length();
 
   stack<char> s;
@@ -96,8 +98,6 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
     k++;
   }
 
-//cout<<"post:"<<postfix<<endl;
-//cout<< "input:"<< infix << endl;
   return postfix;
 }
 
@@ -186,6 +186,9 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
       int leftvalue = NumberStack.top();
       NumberStack.pop();
       int result;
+
+      //Check to ensure we don't divide by zero
+      //If we do we through a error
       if ((rightvalue == 0) && (workValueInt == 47))
       {
         throw DivideByZeroError(Cstack.size());
@@ -217,9 +220,10 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
 
   //The final return value
   return finalvalue;
-}                       // Students: replace return code and remove this comment
+}
 
-
+//Given a ASCII int value checks to see if it is a
+//High priority operator if so we return true
 bool checkforhighpriorityoperator(int x)
 {
   if ((x == 42) || (x == 47))
@@ -235,22 +239,37 @@ bool checkforhighpriorityoperator(int x)
 
 string Expression::convertToPrefix(string postfix) const
 {
+  //Declar initial variables
   stack<char> Cstack;
   stack<char> Cnumbers;
   string output;
 
+  // Add the input to a stack
   for (int i = postfix.length() - 1; i > -1; i--)
   {
     char currentvalue = postfix[i];
 
     Cstack.push(currentvalue);
   }
+
+  //While there is still items in our stack to process
+  //we keep going
   while (Cstack.size() != 0)
   {
+    //Set the working value for this cycle
     char workValue = Cstack.top();
+
+    //Check to see if the current working value is
+    //A high priority operator
     if (checkforhighpriorityoperator(workValue))
     {
+      //Variables
+
+      //Set a suboutput to rearrange the numbers
+      //So the stack does not swap the numbers
       string suboutput;
+
+      //momentary value we add to the suboutput
       char valuetoadd;
 
       //Add the high priority operator to the ouput
@@ -286,6 +305,7 @@ string Expression::convertToPrefix(string postfix) const
       while (Cnumbers.size() != 0)
       {
         valuetoadd = Cnumbers.top();
+
         //Check for operators
         if (checkoperator(valuetoadd))
         {
@@ -306,14 +326,32 @@ string Expression::convertToPrefix(string postfix) const
       Cnumbers.push(workValue);
       Cstack.pop();
     }
+
     //Print out the rest of the numbers
+
+    //If there are no more items to process through
+    //Then we assume there are no more high priortiy
+    //operators so we process all the other items in the Cnumber stack
     if (Cstack.size() == 0)
     {
+      //Variable
+
+      //A string to keep our numbers from getting swaped around due to the stack
       string suboutputop;
+
+      //While there are still items in our Cnumbers stack then we keep going
       while (Cnumbers.size() != 0)
       {
+        //Variables
+
+        //momentary variable to add to the output
         char valuetoadd;
         valuetoadd = Cnumbers.top();
+
+        //Check to see if the valuetoadd is a operator
+
+        //True: we add that value to the suboutput
+        //False: we add that value to the back of the output
         if (checkoperator(valuetoadd))
         {
           suboutputop = suboutputop + valuetoadd;
@@ -325,6 +363,8 @@ string Expression::convertToPrefix(string postfix) const
           Cnumbers.pop();
         }
       }
+
+      //Add the suboutput to the front of the output thus completing prefix
       output = suboutputop + output;
     }
   }
@@ -362,8 +402,7 @@ string Expression::convertToPrefix(string postfix) const
 //  cout<<prefix<<endl;
 //  return prefix;
 //   return "";
+
+//return the completed output
   return output;
 }
-
-
-// Students: replace return code and remove this comment
