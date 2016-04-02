@@ -58,13 +58,7 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 
     else if (precedence > 0)
     {
-      if (s.empty())
-      {
-        s.push(x);
-      }
-      else
-      {
-        while (!s.empty() && s.top() != '(' && precedence <= getPrecedence(s.top()))
+        while (!s.empty() && precedence <= getPrecedence(s.top()))
         {
           postfix = postfix + s.top();
           s.pop();
@@ -81,7 +75,7 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 
     else if (x == ')')
     {
-      while (!s.empty() && s.top() != '(')
+      while (s.top() != '(')
       {
         postfix = postfix + s.top();
         s.pop();
