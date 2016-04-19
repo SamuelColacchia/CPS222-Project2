@@ -12,10 +12,18 @@
 /* The following methods are to be written by students, and constitute
  * CPS222 Project 2.
  */
+
+ //could not figure out paranthseies in time
 int getPrecedence(char x)
 {
   switch (x)
   {
+    case '(':
+      return 3;
+
+    case ')':
+      return 3;
+
   case '/':
     return 2;
 
@@ -33,11 +41,12 @@ int getPrecedence(char x)
   }
 }
 
+enum Character {OPERAND, OPERATOR};
 
 string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 {
   //Set Variables
-
+  Character chr = OPERATOR;
   int length = infix.length();
 
   stack<char> s;
@@ -45,6 +54,8 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
   int i = 0;
   int k = 0;
   char x;
+  bool openParen = false;
+  bool closedParen = false;
 
   while (i < length)
   {
@@ -52,13 +63,41 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
     int precedence = getPrecedence(x);
     if (precedence == 0)
     {
+
+      if (chr == OPERAND){
+        throw SyntaxError(i, "Operator expected");}
+      else{
+         chr = OPERAND;}
+
       postfix = postfix + x;
       k++;
     }
 
-    else if (precedence > 0)
+    else if (precedence > 0 )
     {
+<<<<<<< Updated upstream
         while (!s.empty() && precedence <= getPrecedence(s.top()))
+=======
+<<<<<<< HEAD
+      if (chr == OPERATOR && precedence != 3 ){
+        throw SyntaxError(i, "OPERAND expected");}
+      else if (precedence != 3){
+         chr = OPERATOR;}
+      else{
+        chr = OPERAND;
+      }
+
+      if (s.empty())
+      {
+        s.push(x);
+      }
+      else
+      {
+        while (!s.empty() && s.top() != '(' && precedence <= getPrecedence(s.top()))
+=======
+        while (!s.empty() && precedence <= getPrecedence(s.top()))
+>>>>>>> master
+>>>>>>> Stashed changes
         {
           postfix = postfix + s.top();
           s.pop();
@@ -66,6 +105,9 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
         }
         s.push(x);
       }
+<<<<<<< HEAD
+      if (x == '(')
+=======
     }
     else if (x == '(')
     {
@@ -76,21 +118,51 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
     else if (x == ')')
     {
       while (s.top() != '(')
+<<<<<<< Updated upstream
+=======
+>>>>>>> master
+>>>>>>> Stashed changes
       {
-        postfix = postfix + s.top();
-        s.pop();
-        k++;
+        openParen = true;
+        s.push(x);
+        i++;
       }
+
+      else if (x == ')')
+      {
+        bool closedParen = true;
+        while (!s.empty() && s.top() != '(')
+        {
+          postfix = postfix + s.top();
+
+          if (s.top() == '(')
+            openParen = true;
+
+
+          s.pop();
+          k++;
+        }
+        //if (openParen == false){
+        //  throw SyntaxError(i,"-( expected");}
+
+    }
+
     }
     i++;
   }
-
   while (!s.empty())
   {
+
     postfix = postfix + s.top();
+
+  //  if (s.top() == ')')
+    //  closedParen = true;
+
     s.pop();
     k++;
   }
+  //if (closedParen == false && openParen == true )
+  //  throw SyntaxError(i, "-) expected");
 
   return postfix;
 }
