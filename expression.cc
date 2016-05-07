@@ -106,14 +106,14 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 
                         else if (x == ')')
                         {
-                                if(operandExpected == true) {
-                                        throw SyntaxError(i, "Operand expected");
+                                if (s.empty()) {
+                                        throw SyntaxError(0, "'(' expected");
                                 }
 
                                 while (s.top() != '(' )
                                 {
                                         if (s.empty()) {
-                                                throw SyntaxError(i, "Operand expected");
+                                                throw SyntaxError(0, "'(' expected");
                                         }
 
                                         postfix = postfix + s.top();
@@ -127,13 +127,19 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
         }
 
 
-        while (!s.empty())
-        {
-                if(s.top() == '('){
-                        throw SyntaxError(infix.length(), "Missing '(' ");
+
+        if(operandExpected == true){
+                throw SyntaxError(i, "Operand expected");
+        }
+        else{
+                while (!s.empty())
+                {
+                        if(s.top() == '(') {
+                                throw SyntaxError(infix.length(), "Missing ')' ");
+                        }
+                        postfix = postfix + s.top();
+                        s.pop();
                 }
-                postfix = postfix + s.top();
-                s.pop();
         }
 
         return postfix;
@@ -211,51 +217,56 @@ int Expression::evaluate(string postfix) const throw (DivideByZeroError)
                 Cstack.push(currentvalue);
         }
 
-        while (Cstack.size() != 0)
-        {
-                int workValueInt = Cstack.top();
-                if (checkoperator(workValueInt))
+        if(postfix.length() == 1) {
+                finalvalue = convertAsciiToInt(postfix[0]);
+        }
+        else{
+
+                while (Cstack.size() != 0)
                 {
-                        //Create the right Value
-                        int rightvalue = NumberStack.top();
-                        NumberStack.pop();
-
-                        //Create the left value
-                        int leftvalue = NumberStack.top();
-                        NumberStack.pop();
-                        int result;
-
-                        //Check to ensure we don't divide by zero
-                        //If we do we through a error
-                        if ((rightvalue == 0) && (workValueInt == 47))
+                        int workValueInt = Cstack.top();
+                        if (checkoperator(workValueInt))
                         {
-                                throw DivideByZeroError(Cstack.size());
+                                //Create the right Value
+                                int rightvalue = NumberStack.top();
+                                NumberStack.pop();
+
+                                //Create the left value
+                                int leftvalue = NumberStack.top();
+                                NumberStack.pop();
+                                int result;
+
+                                //Check to ensure we don't divide by zero
+                                //If we do we through a error
+                                if ((rightvalue == 0) && (workValueInt == 47))
+                                {
+                                        throw DivideByZeroError(Cstack.size());
+                                }
+                                else
+                                {
+                                        result = operate(leftvalue, rightvalue, workValueInt);
+                                }
+
+                                //Check to see if this is the final operation
+                                if (Cstack.size() == 1)
+                                {
+                                        //Set the final value
+                                        finalvalue = result;
+                                }
+
+                                //Add the operation back to the number stack
+                                NumberStack.push(result);
                         }
                         else
                         {
-                                result = operate(leftvalue, rightvalue, workValueInt);
+                                //Push a number to the number stack
+                                NumberStack.push(convertAsciiToInt(workValueInt));
                         }
 
-                        //Check to see if this is the final operation
-                        if (Cstack.size() == 1)
-                        {
-                                //Set the final value
-                                finalvalue = result;
-                        }
-
-                        //Add the operation back to the number stack
-                        NumberStack.push(result);
+                        //Remove a item from the input stack
+                        Cstack.pop();
                 }
-                else
-                {
-                        //Push a number to the number stack
-                        NumberStack.push(convertAsciiToInt(workValueInt));
-                }
-
-                //Remove a item from the input stack
-                Cstack.pop();
         }
-
         //The final return value
         return finalvalue;
 }
