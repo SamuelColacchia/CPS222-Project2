@@ -54,51 +54,60 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
         char x;
         string numbers = "1234567890+/*-()";
 
-
+        //go through the string character by character
         while (i < length)
         {
                 x = infix[i];
                 int precedence = getPrecedence(x);
                 extraCharacter = numbers.find(x) == std::string::npos;
+
+
+                //if the char is a extra character then throw the error check
                 if(extraCharacter) {
                         throw SyntaxError(i, "Not valid character");
                 }
                 else{
 
 
-
+                        //get the precedence of the character
                         if (precedence == 0 )
                         {
-
+                                //if last char is a operator
                                 if(operandExpected == true) {
 
                                         postfix = postfix + x;
                                         operandExpected = false;
 
                                 }
+                                //throw a error if it was a operand
                                 else {
                                         throw SyntaxError(i, "operator expected");
                                 }
 
                         }
 
+                        //if the current char is a opertaor
                         else if (precedence > 1)
                         {
+                                // check to make sure last char was a operand
                                 if(operandExpected == false) {
 
+                                        //if there sis a stack, add operators pushes with higher precedence to the
+                                        //postfix string
                                         while (!s.empty() && getPrecedence(s.top()) >= precedence)
                                         {
                                                 postfix = postfix + s.top();
                                                 s.pop();
                                         }
+                                        //push character
                                         s.push(x);
                                         operandExpected = true;
                                 }
+                                //if last char was a operator throw a error
                                 else{
                                         throw SyntaxError(i, "Operand expected");
                                 }
                         }
-
                         else if (x == '(')
                         {
                                 s.push(x);
@@ -106,12 +115,14 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
 
                         else if (x == ')')
                         {
+                                //check if the matching  '(' is in the infix
                                 if (s.empty()) {
                                         throw SyntaxError(0, "'(' expected");
                                 }
 
                                 while (s.top() != '(' )
                                 {
+                                        //check if the matching  '(' is in the infix
                                         if (s.empty()) {
                                                 throw SyntaxError(0, "'(' expected");
                                         }
@@ -127,13 +138,14 @@ string Expression::convertToPostfix(string infix) const throw (SyntaxError)
         }
 
 
-
+        // if it ends with a operator throw a error
         if(operandExpected == true){
                 throw SyntaxError(i, "Operand expected");
         }
         else{
                 while (!s.empty())
                 {
+                        //throw error if there is not a matching ')' at the end
                         if(s.top() == '(') {
                                 throw SyntaxError(infix.length(), "Missing ')' ");
                         }
